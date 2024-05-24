@@ -1,0 +1,98 @@
+-- made by guesttester_1 (pls credit to me)
+-- i forgot to add remove textures script
+
+setfpscap(900) -- normal fps cap for other executors
+
+setfflag("TaskSchedulerTargetFps", "900") -- for setfpscap unc missing or unsupported for executors
+
+local function removeWater()
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("Terrain") then
+            obj.WaterTransparency = 1
+            obj.WaterWaveSize = 0
+            obj.WaterWaveSpeed = 0
+            obj.WaterReflectance = 0
+        end
+    end
+end
+
+local function removeReflections()
+    local lighting = game:GetService("Lighting")
+    lighting.EnvironmentSpecularScale = 0
+    lighting.EnvironmentDiffuseScale = 0
+end
+
+local function reduceGrassDetail()
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("Terrain") then
+            obj:SetMaterialColor(Enum.Material.Grass, Color3.fromRGB(34, 139, 34))  -- Set to a less bright green
+            obj:SetMaterialProperty(Enum.Material.Grass, "Transparency", 1)  -- Increase transparency
+            obj:SetMaterialProperty(Enum.Material.Grass, "Reflectance", 0)  -- Remove reflectance
+        end
+    end
+end
+
+local function removeEffects()
+    for _, effect in pairs(workspace:GetDescendants()) do
+        if effect:IsA("ParticleEmitter") or effect:IsA("Smoke") or effect:IsA("Fire") or effect:IsA("Sparkles") then
+            effect.Enabled = false
+        end
+    end
+end
+
+local function removeExplosions()
+    for _, explosion in pairs(workspace:GetDescendants()) do
+        if explosion:IsA("Explosion") then
+            explosion:Destroy()
+        end
+    end
+end
+
+local function setLowShadows()
+    game.Lighting.GlobalShadows = false
+end
+
+local function setLowQuality()
+    settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+end
+
+local function setLowRenderDistance()
+    game:GetService("Workspace").CurrentCamera.MaxZoomDistance = 50
+    game:GetService("Workspace").CurrentCamera.FieldOfView = 70
+end
+
+local function setLowGraphics()
+local Lighting = game:FindService("Lighting")
+
+setscriptable(Lighting, "Technology", true)
+Lighting.Technology = Enum.Technology.Legacy
+
+for _, v in next, workspace:GetDescendants() do
+    if v:IsA("PointLight") or v:IsA("SpotLighting") or v:IsA("SurfaceLight") then
+        local Light = v
+        if not Light.Shadows then
+            Light.Shadows = true
+        end
+    end
+end
+end
+
+local function reduceLag()
+    removeWater()
+    removeReflections()
+    reduceGrassDetail()
+    removeEffects()
+    removeExplosions()
+    setLowShadows()
+    setLowQuality()
+    setLowRenderDistance()
+    setLowGraphics()
+end
+
+reduceLag()
+
+workspace.DescendantAdded:Connect(function(descendant)
+    if descendant:IsA("Terrain") or descendant:IsA("ParticleEmitter") or descendant:IsA("Smoke") or descendant:IsA("Fire") or descendant:IsA("Sparkles") or descendant:IsA("Explosion") then
+        reduceLag()
+    end
+end)
