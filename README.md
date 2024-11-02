@@ -1,4 +1,4 @@
-Universal by Unknownproooolucky and Guesttester_1 with 5 exploit dev scripts
+Universal by Unknownproooolucky with 2 exploit dev scripts
 
 
 
