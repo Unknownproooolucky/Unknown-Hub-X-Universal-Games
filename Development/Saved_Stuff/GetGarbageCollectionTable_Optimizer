@@ -10,3 +10,8 @@ end
 
 
 setNewValue(AltValue) -- Use the Alt/New Value
+
+-- while loop
+while wait(0.1) do
+setNewValue(AltValue)
+end
