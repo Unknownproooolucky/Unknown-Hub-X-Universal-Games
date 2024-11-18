@@ -1,0 +1,12 @@
+local Mainvalue = 0 -- Main
+local AltValue = 0 -- Alt/New Value
+
+function setNewValue(newValue)
+  if Mainvalue ~= newValue then
+        Mainvalue = newValue
+       -- Put the getgc here example: rawset(v, "Target", Mainvalue)
+    end
+end
+
+
+setNewValue(AltValue) -- Use the Alt/New Value
